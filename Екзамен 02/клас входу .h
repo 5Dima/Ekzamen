@@ -2,11 +2,13 @@
 //STL
 #include<vector>
 #include<string>
+#include<map>
 
 // додадктові
 #include<windows.h>
 #include<iomanip>
-#include<map>
+#include<fstream>
+#include<algorithm>
 
 
 using namespace std;
@@ -21,7 +23,6 @@ bool perevirka_emaila(map<string, string> m,string str) {
 
 bool putany() {
 	int choic;
-	cout << "Такий email вже існує!\n";
 	cout << "|| 1 - Спробувати ще раз!\n";
 	cout << "|| 2 - Вихід!\n";
 	cout << "Enter you choic: ";
@@ -34,17 +35,17 @@ bool putany() {
 class tester {
 	map<string,string> m;
 	string email, parol;
-	bool pere;
+	bool pere,login;
 public:
 	void register_account() {
 		pere = true;
-
 		while (pere) {
 			cout << string(40, '+') << "\n";
 			cout << "Регістрація акаунта!\n";
 			cout << "Ведіть емаїл: ";
 			getline(cin, email);
 			if (perevirka_emaila(m, email)) {
+				cout << "Такий email вже існує!\n";
 				pere = putany();
 			}
 			else {
@@ -54,7 +55,29 @@ public:
 				m.insert({ email,parol });
 			}
 		}
+	}
 
+	bool login_account() {
+		login= true;
+		pere = true;
+		while (pere) {
+			cout << string(40, '+') << "\n";
+			cout << "Вхід акаунта!\n";
+			cout << "Ведіть емаїл: ";
+			getline(cin, email);
+			if (!perevirka_emaila(m, email)) {
+				cout << "Такий email не існує!\n";
+				pere = putany();
+			if (pere == false)login == false;
+			}
+			else {
+				pere = false;
+				cout << "Ведіть Пароль: ";
+				getline(cin, parol);
+				m.insert({ email,parol });
+			}
+		}
+		return login;
 	}
 
 
